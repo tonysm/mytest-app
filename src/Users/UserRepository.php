@@ -35,4 +35,23 @@ class UserRepository
 
         return new User($result);
     }
+
+    /**
+     * @param $user_id
+     * @return User|null
+     */
+    public function findByUserId($user_id)
+    {
+        $sql = "SELECT * FROM users WHERE id = :user_id";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(compact("user_id"));
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ( ! $result)
+            return null;
+
+        return new User($result);
+    }
 } 

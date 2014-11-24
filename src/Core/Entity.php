@@ -5,7 +5,7 @@ class Entity
     /**
      * @var array
      */
-    private $attributes = [];
+    protected $attributes = [];
 
     /**
      * @param array $attributes
@@ -22,7 +22,7 @@ class Entity
      * @param $name
      * @return mixed
      */
-    public function __get($name)
+    function __get($name)
     {
         return isset($this->attributes[$name]) ? $this->attributes[$name] : "";
     }

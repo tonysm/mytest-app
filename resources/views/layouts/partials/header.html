@@ -1,5 +1,16 @@
 <div class="header">
     <nav>
+        {% if internal %}
+        <ul class="nav nav-pills pull-right">
+            <li role="presentation" {%if page == "home" %}class="active" {% endif %}>
+            <a href="/perfil.php">Perfil</a>
+            </li>
+            <li role="presentation">
+            <a href="/logout.php">Logout</a>
+            </li>
+        </ul>
+        {% endif %}
+        {% if not internal %}
         <ul class="nav nav-pills pull-right">
             <li role="presentation" {%if page == "home" %}class="active" {% endif %}>
                 <a href="/index.php">Home</a>
@@ -11,6 +22,7 @@
                 <a href="/register.php">Cadastro</a>
             </li>
         </ul>
+        {% endif %}
     </nav>
     <h3 class="text-muted">MyTest</h3>
 </div>

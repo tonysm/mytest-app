@@ -1,0 +1,17 @@
+{% extends "layouts/master.html" %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+
+{% include "layouts/partials/header.html" with {'internal': true, 'page' : 'home'} %}
+
+<div class="container">
+    <div class="span3 well">
+        <center>
+            <img src="{{ user.getGravatarUrl(140) }}" name="aboutme" width="140" height="140" class="img-circle">
+            <h3>{{ user.getName() }}</h3>
+        </center>
+    </div>
+</div>
+{% endblock %}
