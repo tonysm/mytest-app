@@ -6,6 +6,17 @@
 
     {% include "layouts/partials/header.html" with {'page' : 'register'} %}
 
+    {% if errors|length > 0 %}
+        <div class="alert alert-warning" role="alert">
+            <h4>Ops, parece que você preecheu alguns campos com dados inválidos.</h4>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <form role="form" method="POST" action="/register.php">

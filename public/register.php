@@ -2,22 +2,36 @@
 
 require __DIR__ . "/../bootstrap/app.php";
 
-if (isset($_POST['register']))
+$has_submitted = isset($_POST['register']);
+
+$data = array_only(
+    $has_submitted ? $_POST['register'] : [],
+    ["username", "name", "email", "password", "password_confirmation"]
+);
+
+$errors = [];
+
+if ($has_submitted)
 {
-    $data = array_only(
-        $_POST['register'],
-        ["username", "name", "email", "password", "password_confirmation"]
-    );
+    try
+    {
+        $command = new MyTest\Users\RegisterUserCommand($data);
+        $user = $container["App.Users.RegisterUserHandler"]->execute($command);
 
-    $command = new MyTest\Users\RegisterUserCommand($data);
-
-    $container["App.Users.RegisterUserHandler"]->execute($command);
-} else {
-    $data = [
-        'name' => '',
-        'username' => '',
-        'email' => ''
-    ];
+        header('Location:/index.php?created=true');
+    }
+    catch (\MyTest\Users\Exceptions\UserRegistrationInvalidDataException $e)
+    {
+        $errors = $e->getErrorMessages();
+    }
+    catch (\MyTest\Users\Exceptions\CouldNotRegisterUserException $e)
+    {
+        $errors = ['Ops, houve um problema inesperado.'];
+    }
+    catch (\MyTest\Users\Exceptions\UsernameOrEmailBeenTakenException $e)
+    {
+        $errors = ['Nome de usuário ou email já estão sendo utilizados.'];
+    }
 }
 
-echo $twig->render("pages/register.html", ['register' => $data]);
+echo $twig->render("pages/register.html", ['register' => $data, 'errors' => $errors]);

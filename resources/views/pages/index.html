@@ -6,6 +6,17 @@
 
     {% include "layouts/partials/header.html" with {'page' : 'home'} %}
 
+    {% if help|length > 0 %}
+        <div class="alert alert-info" role="alert">
+            <h4>Parabéns!</h4>
+            <ul>
+                {% for message in help %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <div class="jumbotron">
         <h1>Bem-vindo!</h1>
         <p class="lead">
