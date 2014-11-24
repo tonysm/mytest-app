@@ -1,0 +1,25 @@
+{% extends "layouts/master.html" %}
+
+{% block title %}404{% endblock %}
+
+{% block content %}
+
+{% include "layouts/partials/header.html" %}
+
+{% if help|length > 0 %}
+<div class="alert alert-warning" role="alert">
+    <ul>
+        {% for message in help %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="jumbotron">
+    <h1>Page not found!</h1>
+    <p>
+        <a class="btn btn-lg btn-success" href="/index.php" role="button">Me leve para a Home</a>
+    </p>
+</div>
+{% endblock %}

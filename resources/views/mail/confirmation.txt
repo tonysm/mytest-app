@@ -1,0 +1,9 @@
+Olá!
+
+Bem-vindo ao MyTest.
+
+Para ativar a sua conta, copie o link abaixo:
+
+{{ host }}/confirmation.php?token={{ token }}
+
+e cole no seu navegador.

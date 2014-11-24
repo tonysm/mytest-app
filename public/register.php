@@ -16,7 +16,8 @@ if ($has_submitted)
     try
     {
         $command = new MyTest\Users\RegisterUserCommand($data);
-        $user = $container["App.Users.RegisterUserHandler"]->execute($command);
+        $user = $container["MyTest.Users.RegisterUserHandler"]->execute($command);
+        $container["MyTest.Mailers.UserNotifier"]->sendConfirmationLink($user);
 
         header('Location:/index.php?created=true');
     }

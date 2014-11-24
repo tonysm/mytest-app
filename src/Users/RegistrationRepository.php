@@ -73,16 +73,10 @@ class RegistrationRepository
      */
     private function createTokenForUserIfNotExists($user)
     {
-        $sql = "SELECT token as count FROM email_verification_tokens WHERE user_id = :user_id AND used_at IS NULL";
+        $token = $this->getUnusedTokenByUserId($user->id);
 
-        $stmt = $this->connection->prepare($sql);
-
-        $stmt->execute(['user_id' => $user->id]);
-
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        if ($result)
-            return $result["token"];
+        if ($token)
+            return $token;
 
         $sql = "INSERT INTO email_verification_tokens (token, created_at, user_id) VALUES(:token, :created_at, :user_id)";
 
@@ -97,5 +91,75 @@ class RegistrationRepository
         ]);
 
         return $token;
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function confirmToken($token)
+    {
+        $user = $this->getUserByToken($token);
+
+        if ($user)
+        {
+            $this->confirmEmail($token);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $user_id
+     * @return string the token
+     */
+    private function getUnusedTokenByUserId($user_id)
+    {
+        $sql = "SELECT token FROM email_verification_tokens WHERE user_id = :user_id AND used_at IS NULL";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute(['user_id' => $user_id]);
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result ? $result["token"] : false;
+    }
+
+    /**
+     * @param string $token
+     * @return User
+     */
+    private function getUserByToken($token)
+    {
+        $sql = "SELECT * FROM users WHERE id = (SELECT user_id FROM email_verification_tokens WHERE token = :token LIMIT 1)";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute(["token" => $token]);
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($result)
+        {
+            return new User($result);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $token
+     */
+    private function confirmEmail($token)
+    {
+        $sql = "UPDATE email_verification_tokens SET used_at = now() WHERE token = :token";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(["token" => $token]);
+
+        $sql = "UPDATE users SET verified_at = now() WHERE id = (SELECT user_id FROM email_verification_tokens WHERE token = :token LIMIT 1)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute(["token" => $token]);
     }
 } 
