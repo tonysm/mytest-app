@@ -1,0 +1,18 @@
+{% extends "layouts/master.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+
+    {% include "layouts/partials/header.html" with {'page' : 'home'} %}
+
+    <div class="jumbotron">
+        <h1>Bem-vindo!</h1>
+        <p class="lead">
+            Para usar nossa aplicação é necessário registro. Caso já tenha registro, efetue login.
+        </p>
+        <p>
+            <a class="btn btn-lg btn-success" href="/register.php" role="button">Cadastre-se</a>
+        </p>
+    </div>
+{% endblock %}

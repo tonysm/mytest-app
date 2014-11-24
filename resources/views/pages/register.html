@@ -1,0 +1,44 @@
+{% extends "layouts/master.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+
+    {% include "layouts/partials/header.html" with {'page' : 'register'} %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form role="form" method="POST" action="/register.php">
+                <h2>Cadastre-se<small>, é grátis</small></h2>
+                <hr class="colorgraph">
+                <div class="form-group">
+                    <input value="{{ register.name }}" type="text" name="register[name]" id="name" class="form-control input-lg" placeholder="Fulano de tal" tabindex="3">
+                </div>
+                <div class="form-group">
+                    <input value="{{ register.username }}" type="text" name="register[username]" id="username" class="form-control input-lg" placeholder="funaldetal" tabindex="3">
+                </div>
+                <div class="form-group">
+                    <input value="{{ register.email }}" type="email" name="register[email]" id="email" class="form-control input-lg" placeholder="fulano@exemplo.com" tabindex="4">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="password" name="register[password]" id="password" class="form-control input-lg" placeholder="Senha" tabindex="5">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="password" name="register[password_confirmation]" id="password_confirmation" class="form-control input-lg" placeholder="Confirme a senha" tabindex="6">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="colorgraph">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 register--login-btn"><a href="/login.php">ou voltar para o login</a></div>
+                    <div class="col-xs-12 col-md-6"><input type="submit" value="Cadastrar" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
