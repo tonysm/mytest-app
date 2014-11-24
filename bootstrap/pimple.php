@@ -25,6 +25,14 @@ $container["MyTest.Users.RegistrationRepository"] = function($c) {
     return new \MyTest\Users\RegistrationRepository($c["pdo.connection"]);
 };
 
+$container["MyTest.Users.UserRepository"] = function($c) {
+    return new \MyTest\Users\UserRepository($c["pdo.connection"]);
+};
+
+$container["MyTest.Users.LoginUserHandler"] = function($c) {
+    return new \MyTest\Users\LoginUserHandler($c["MyTest.Users.UserRepository"]);
+};
+
 $container["MyTest.Users.ConfirmUserEmailHandler"] = function($c) {
     return new \MyTest\Users\ConfirmUserEmailHandler(
         $c["MyTest.Users.RegistrationRepository"]

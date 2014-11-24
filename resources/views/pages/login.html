@@ -6,5 +6,30 @@
 
     {% include "layouts/partials/header.html" with {'page' : 'login'} %}
 
-    <h1>login page</h1>
+    {% if confirmed %}
+    <div class="alert alert-success" role="alert">
+        <h4>Parabéns! Seu e-mail foi confirmado com sucesso. Agora efetue login para começar a utilizar nossa aplicação.</h4>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form role="form" method="POST" action="/login.php">
+                <h2>Login</h2>
+                <hr class="colorgraph">
+                <div class="form-group">
+                    <input value="{{ register.email }}" type="email" name="login[email]" id="email" class="form-control input-lg" placeholder="fulano@exemplo.com" tabindex="4">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="login[password]" id="password" class="form-control input-lg" placeholder="Senha" tabindex="5">
+                </div>
+
+                <hr class="colorgraph">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 register--login-btn"><a href="/index.php">ou voltar para a home</a></div>
+                    <div class="col-xs-12 col-md-6"><input type="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
